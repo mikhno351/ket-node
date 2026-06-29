@@ -1,0 +1,27 @@
+{
+  "name": "ket-node",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/mikhno351/ket-node#readme",
+  "bugs": {
+    "url": "https://github.com/mikhno351/ket-node/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikhno351/ket-node.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Alexander Mikhno",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
