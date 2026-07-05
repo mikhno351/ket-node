@@ -15,6 +15,12 @@ A lightweight TypeScript utility for creating and configuring DOM elements with 
 
 ## Installation
 
+Use cdn:
+```html
+<script src="https://cdn.jsdelivr.net/npm/ket-node/dist/index.js"></script>
+```
+
+Use npm:
 ```bash
 npm install ket-node
 ```
