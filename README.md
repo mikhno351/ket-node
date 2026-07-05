@@ -264,7 +264,7 @@ The library is fully typed.
 Element types are inferred from the element:
 
 ```ts
-const input = elementByTagName(document.createElement('input'));
+const input = elementByElement(document.createElement('input'));
 
 input.value = "Hello";
 ```
