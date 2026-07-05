@@ -261,6 +261,14 @@ document.body.append(card);
 
 The library is fully typed.
 
+Element types are inferred from the element.
+
+```ts
+const input = elementByTagName(document.createElement('input'));
+
+input.value = "Hello";
+```
+
 Element types are inferred from the tag name.
 
 ```ts
@@ -270,7 +278,3 @@ input.value = "Hello";
 ```
 
 `input` is inferred as `HTMLInputElement`.
-
-## License
-
-Apache-2.0
