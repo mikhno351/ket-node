@@ -1,7 +1,7 @@
 # ket-node
 
 ![NPM Version](https://img.shields.io/npm/v/ket-node)
-![NPM Downloads](https://img.shields.io/npm/dm/ket-node)
+![NPM Downloads](https://img.shields.io/npm/d18m/ket-node)
 ![NPM License](https://img.shields.io/npm/l/ket-node)
 
 A lightweight TypeScript utility for creating and configuring DOM elements with a declarative API. Helps you build HTML elements by describing their attributes, events, styles, datasets, ARIA attributes, classes, and children in a single object.
