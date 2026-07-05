@@ -17,7 +17,7 @@ A lightweight TypeScript utility for creating and configuring DOM elements with 
 
 Use cdn:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/ket-node/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ket-node/dist/index.js" type="module"></script>
 ```
 
 Use npm:
