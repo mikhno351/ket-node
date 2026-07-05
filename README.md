@@ -6,14 +6,14 @@ A lightweight TypeScript utility for creating and configuring DOM elements with 
 
 ## Features
 
-- ✅ Create elements with a single function
-- ✅ Strong TypeScript typings
-- ✅ Add classes, attributes, dataset and ARIA values
-- ✅ Attach event listeners
-- ✅ Apply inline styles (string or object)
-- ✅ Append text and DOM children
-- ✅ Optional initialization callback
-- ✅ Zero dependencies
+- Create elements with a single function
+- Strong TypeScript typings
+- Add classes, attributes, dataset and ARIA values
+- Attach event listeners
+- Apply inline styles (string or object)
+- Append text and DOM children
+- Optional initialization callback
+- Zero dependencies
 
 ## Installation
 
