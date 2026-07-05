@@ -1,8 +1,6 @@
 # ket-node
 
-A lightweight TypeScript utility for creating and configuring DOM elements with a declarative API.
-
-`ket-node` helps you build HTML elements by describing their attributes, events, styles, datasets, ARIA attributes, classes, and children in a single object.
+A lightweight TypeScript utility for creating and configuring DOM elements with a declarative API. Helps you build HTML elements by describing their attributes, events, styles, datasets, ARIA attributes, classes, and children in a single object.
 
 ## Features
 
