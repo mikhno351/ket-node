@@ -38,7 +38,7 @@ npm i @mikhno351/ket-node
 Creates a new HTML element using `document.createElement()`.
 
 ```ts
-const div = elementByTagName("div");
+const input = elementByTagName("input");
 ```
 
 ### `elementByElement(element, options?, onElement?)`
@@ -46,8 +46,6 @@ const div = elementByTagName("div");
 Configures an existing element.
 
 ```ts
-const input = document.createElement("input");
-
 elementByElement(input, {
     attribute: {
         placeholder: "Your name"
