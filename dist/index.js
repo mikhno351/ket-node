@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 Alexander Mikhno.
+ * All rights reserved.
+ * Project: ket-node
+ */
 function isArrayNonEmpty(value) {
     return isArray(value) && value.length > 0;
 }
@@ -111,3 +116,4 @@ export function elementByElement(element, options = {}, onElement) {
     }
     return element;
 }
+//# sourceMappingURL=index.js.map

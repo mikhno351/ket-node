@@ -1,7 +1,7 @@
 {
-  "name": "ket-node",
+  "name": "@mikhno351/ket-node",
   "version": "1.0.0",
-  "description": "",
+  "description": "A lightweight TypeScript utility for creating and configuring DOM elements with a declarative API.",
   "homepage": "https://github.com/mikhno351/ket-node#readme",
   "bugs": {
     "url": "https://github.com/mikhno351/ket-node/issues"
@@ -13,15 +13,22 @@
   "license": "Apache-2.0",
   "author": "Alexander Mikhno",
   "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "typescript": "^4.1.0"
   },
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "typescript": "^4.1.0"
   }
 }

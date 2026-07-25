@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2026 Alexander Mikhno.
+ * All rights reserved.
+ * Project: ket-node
+ */
+
 function isArrayNonEmpty(value: unknown): value is unknown[] {
     return isArray(value) && value.length > 0;
 }
