@@ -36,7 +36,6 @@ npm i @mikhno351/ket-node
 ### `elementByTagName(tagName, options?, onElement?)`
 
 Creates a new HTML element using `document.createElement()`.
-
 ```ts
 const input = elementByTagName("input");
 ```
@@ -44,11 +43,10 @@ const input = elementByTagName("input");
 ### `elementByElement(element, options?, onElement?)`
 
 Configures an existing element.
-
 ```ts
 elementByElement(input, {
     attribute: {
-        placeholder: "Your name"
+        placeholder: "Enter your name..."
     }
 });
 ```
@@ -58,17 +56,16 @@ elementByElement(input, {
 ### classList
 
 ```ts
-classList: "card"
+classList: "card" // <element class="card">
 ```
 or
 ```ts
-classList: ["card", "shadow"]
+classList: ["card", "shadow"] // <element class="card shadow">
 ```
 
 ### attribute
 
 Sets DOM properties or HTML attributes.
-
 ```ts
 attribute: {
     id: "login",
@@ -76,49 +73,37 @@ attribute: {
     placeholder: "Enter your login...",
     disabled: false
 }
+// <element id="login" type="text" placeholder="Enter your login...">
 ```
 
 ### aria
 
-Automatically prefixes keys with `aria-`.
-
+Sets `aria-*` attributes.
 ```ts
 aria: {
     label: "Close dialog",
     hidden: true
 }
-```
-
-Produces:
-
-```html
-<button aria-label="Close dialog" aria-hidden="true"></button>
+// <element aria-label="Close dialog" aria-hidden="true">
 ```
 
 ### dataset
 
 Sets `data-*` attributes.
-
 ```ts
 dataset: {
     id: 15,
     active: true
 }
-```
-
-Produces:
-
-```html
-<div data-id="15" data-active></div>
+// <element data-id="15" data-active>
 ```
 
 ### event
 
 Attach event listeners.
-
 ```ts
 event: {
-    click(event) {
+    click = event => {
         console.log(event.currentTarget);
     }
 }
@@ -127,74 +112,55 @@ event: {
 ### style
 
 Supports CSS text.
-
 ```ts
 style: "color:red;font-size:18px;"
 ```
-
 or an object.
-
 ```ts
 style: {
     color: "red",
-    fontSize: "18px",
-    padding: "10px"
+    fontSize: "18px"
 }
 ```
 
 ### children
 
 Accepts:
-
 - string
 - HTMLElement
 - Text
 - arrays of the above
-
 ```ts
-children: [
-    "Hello ",
-    elementByTagName("strong", {
-        children: "World"
-    })
-]
+children: ["Hello ", elementByTagName("strong", {
+    children: "World"
+})]
+// <element>Hello <strong>World</strong></element>
 ```
 
 ## Initialization Callback
 
 An optional callback is executed after the element has been configured.
-
 ```ts
-elementByTagName(
-    "button",
-    {
-        children: "Save"
-    },
-    button => {
-        console.log(button);
-    }
-);
+elementByTagName("button", { children: "Save" }, button => {
+    console.log(button); // <button>Save</button>
+});
 ```
 
 Async callbacks are also supported.
-
 ```ts
-elementByTagName(
-    "div",
-    {},
-    async element => {
-        await loadData();
-        element.textContent = "Loaded";
-    }
-);
+elementByTagName("div", {}, async element => {
+    await loadData();
+    element.textContent = "Loaded";
+});
+// Now: <div></div>
+// Much later: <div>Loaded</div>
 ```
-
 Errors thrown inside async callbacks are automatically caught and logged.
 
 ## Complete Example
 
 ```ts
-import { elementByTagName } from "ket-node";
+import { elementByTagName } from "@mikhno351/ket-node";
 
 const card = elementByTagName("div", {
     classList: ["card", "shadow"],
@@ -240,25 +206,10 @@ const card = elementByTagName("div", {
 
 document.body.append(card);
 ```
-
-## TypeScript
-
-The library is fully typed.
-
-Element types are inferred from the element:
-
-```ts
-const input = elementByElement(document.createElement("input"));
-
-input.value = "Hello";
+Result:
+```html
+<div class="card shadow" id="profile" data-user-id="42" aria-label="User profile" style="padding:20px;border:1px solid #ddd;border-radius:8px">
+    <h2>John Doe</h2>
+    <button type="button">Say hello</button>
+</div>
 ```
-
-Element types are inferred from the tag name:
-
-```ts
-const input = elementByTagName("input");
-
-input.value = "Hello";
-```
-
-`input` is inferred as `HTMLInputElement`.
