@@ -84,11 +84,13 @@ elementByElement(input, {
 ```ts
 classList: "card"
 ```
-
 or
-
 ```ts
 classList: ["card", "shadow"]
+```
+or
+```ts
+classList: "card shadow"
 ```
 
 ### attribute
