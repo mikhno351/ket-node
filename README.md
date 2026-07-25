@@ -73,7 +73,7 @@ Sets DOM properties or HTML attributes.
 attribute: {
     id: "login",
     type: "text",
-    placeholder: "Username",
+    placeholder: "Enter your login...",
     disabled: false
 }
 ```
