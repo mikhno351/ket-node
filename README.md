@@ -31,28 +31,6 @@ Use npm:
 npm i @mikhno351/ket-node
 ```
 
-## Basic Usage
-
-```ts
-import { elementByTagName } from "@mikhno351/ket-node";
-
-const button = elementByTagName("button", {
-    classList: "primary",
-    attribute: {
-        type: "button"
-    },
-    children: "Click me"
-});
-
-document.body.append(button);
-```
-
-Produces:
-
-```html
-<button class="primary" type="button">Click me</button>
-```
-
 ## API
 
 ### `elementByTagName(tagName, options?, onElement?)`
