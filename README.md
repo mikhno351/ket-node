@@ -8,7 +8,6 @@
 A lightweight TypeScript utility for creating and configuring DOM elements with a declarative API. Helps you build HTML elements by describing their attributes, events, styles, datasets, ARIA attributes, classes, and children in a single object.
 
 ## Features
-
 - Create elements with a single function
 - Strong TypeScript typings
 - Add classes, attributes, dataset and ARIA values
@@ -18,22 +17,21 @@ A lightweight TypeScript utility for creating and configuring DOM elements with 
 - Optional initialization callback
 - Zero dependencies
 
-## Installation
+## Usage
 
 Use cdn:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/ket-node/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mikhno351/ket-node/dist/index.js"></script>
 ```
-
 Use npm:
 ```bash
-npm install ket-node
+npm i @mikhno351/ket-node
 ```
 
 ## Basic Usage
 
 ```ts
-import { elementByTagName } from "ket-node";
+import { elementByTagName } from "@mikhno351/ket-node";
 
 const button = elementByTagName("button", {
     classList: "primary",
@@ -273,7 +271,7 @@ The library is fully typed.
 Element types are inferred from the element:
 
 ```ts
-const input = elementByElement(document.createElement('input'));
+const input = elementByElement(document.createElement("input"));
 
 input.value = "Hello";
 ```
