@@ -88,10 +88,6 @@ or
 ```ts
 classList: ["card", "shadow"]
 ```
-or
-```ts
-classList: "card shadow"
-```
 
 ### attribute
 
