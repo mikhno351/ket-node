@@ -25,9 +25,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "typescript": "^4.1.0"
-  },
   "devDependencies": {
     "typescript": "^4.1.0"
   }
