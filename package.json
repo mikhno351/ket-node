@@ -1,6 +1,6 @@
 {
   "name": "@mikhno351/ket-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight TypeScript utility for creating and configuring DOM elements with a declarative API.",
   "homepage": "https://github.com/mikhno351/ket-node#readme",
   "bugs": {
