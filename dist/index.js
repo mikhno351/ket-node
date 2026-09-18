@@ -58,6 +58,9 @@ function applyAttribute(element, key, value) {
         element.setAttribute(key, String(value));
     }
 }
+function applyClassNames(classList) {
+    return toIterable(classList).flatMap(item => isStringNonEmpty(item) ? item.trim().split(/\s+/).filter(Boolean) : []);
+}
 /**
  * @see elementByElement
  */
@@ -66,7 +69,7 @@ export function elementByTagName(tagName, options = {}, onElement) {
 }
 export function elementByElement(element, options = {}, onElement) {
     if (!isUndefined(options.classList)) {
-        element.classList.add(...toIterable(options.classList));
+        element.classList.add(...applyClassNames(options.classList));
     }
     applyEachRecord(options.attribute, (name, value) => {
         applyAttribute(element, name, value);

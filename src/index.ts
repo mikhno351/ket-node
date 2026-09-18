@@ -24,8 +24,7 @@ function isNode(value: unknown): value is Node {
     return value instanceof Node;
 }
 
-function isObjectNonEmpty(value: unknown): value is Record<string, any>
-{
+function isObjectNonEmpty(value: unknown): value is Record<string, any> {
     return isObject(value) && !isNull(value) && !isArray(value) && Object.keys(value).length > 0;
 }
 
@@ -65,59 +64,15 @@ type ElementEvent<T extends HTMLElement> = {
 
 type ElementParam = Record<string, string | number | boolean>;
 
-type ElementAttribute<T extends HTMLElement> = Partial<Omit<T, keyof HTMLElement | "style">> & ElementParam & {
-    id?: string;
-    className?: string;
-    title?: string;
-    lang?: string;
-    dir?: string;
-    hidden?: boolean;
-    tabIndex?: number;
-    accessKey?: string;
-    draggable?: boolean;
-    spellcheck?: boolean;
-    contentEditable?: string | boolean;
-    role?: string;
-    action?: string;
+type ElementProperties<T> = { [K in keyof T]: T[K] extends Function ? K : never; }[keyof T];
 
-    value?: string;
-    defaultValue?: string;
-    disabled?: boolean;
-    readOnly?: boolean;
-    required?: boolean;
-    placeholder?: string;
-    name?: string;
-    type?: string;
-    checked?: boolean;
-    multiple?: boolean;
-    min?: string | number;
-    max?: string | number;
-    step?: string | number;
-    pattern?: string;
-    minLength?: number;
-    maxLength?: number;
-    size?: number;
-    accept?: string;
-
-    src?: string;
-    href?: string;
-    target?: string;
-    alt?: string;
-    width?: string | number;
-    height?: string | number;
-    autocomplete?: string;
-    autofocus?: boolean;
-    selected?: boolean;
-    rows?: number;
-    cols?: number;
-    wrap?: string;
-};
+export type ElementAttribute<T extends HTMLElement> = Partial<Omit<T, ElementProperties<T> | "style">> & ElementParam;
 
 type ElementStyle = string | Partial<Record<keyof CSSStyleDeclaration, string | number>>;
 
 export type ElementChildren = HTMLElement | Text | string;
 
-interface ElementOptions<T extends HTMLElement = HTMLElement> {
+export interface ElementOptions<T extends HTMLElement = HTMLElement> {
     classList?: string | string[];
     attribute?: ElementAttribute<T>;
     aria?: ElementParam;
@@ -143,16 +98,20 @@ function applyAttribute(element: HTMLElement, key: string, value: string | numbe
     }
 }
 
+function applyClassNames(classList: string | string[]): string[] {
+    return toIterable(classList).flatMap(item => isStringNonEmpty(item) ? item.trim().split(/\s+/).filter(Boolean) : []);
+}
+
 /**
  * @see elementByElement
  */
-export function elementByTagName<T extends keyof HTMLElementTagNameMap>(tagName: T, options: ElementOptions = {}, onElement?: Element<HTMLElementTagNameMap[T]>): HTMLElementTagNameMap[T] {
+export function elementByTagName<T extends keyof HTMLElementTagNameMap>(tagName: T, options: ElementOptions<HTMLElementTagNameMap[T]> = {}, onElement?: Element<HTMLElementTagNameMap[T]>): HTMLElementTagNameMap[T] {
     return elementByElement(document.createElement(tagName), options, onElement);
 }
 
-export function elementByElement<T extends HTMLElement>(element: T, options: ElementOptions = {}, onElement?: Element<T>): T {
+export function elementByElement<T extends HTMLElement>(element: T, options: ElementOptions<T> = {}, onElement?: Element<T>): T {
     if (!isUndefined(options.classList)) {
-        element.classList.add(...toIterable(options.classList));
+        element.classList.add(...applyClassNames(options.classList));
     }
 
     applyEachRecord(options.attribute, (name, value) => {
