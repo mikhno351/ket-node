@@ -15,6 +15,9 @@ function isStringNonEmpty(value) {
 function isString(value) {
     return typeof value === "string";
 }
+function isNumber(value) {
+    return typeof value === "number";
+}
 function isNode(value) {
     return value instanceof Node;
 }
@@ -42,34 +45,81 @@ function isNull(value) {
 function toIterable(value) {
     return isArray(value) ? value : [value];
 }
+export const NAMESPACES = {
+    svg: "http://www.w3.org/2000/svg",
+    xhtml: "http://www.w3.org/1999/xhtml",
+    mathml: "http://www.w3.org/1998/Math/MathML",
+    xlink: "http://www.w3.org/1999/xlink",
+    xml: "http://www.w3.org/XML/1998/namespace",
+};
 function applyEachRecord(record, callback) {
     if (isObjectNonEmpty(record)) {
         Object.entries(record).forEach(([key, value]) => callback(key, value));
     }
 }
-function applyAttribute(element, key, value) {
-    if (key in element && !isFunction(element[key])) {
-        element[key] = value;
+function applyAttribute(target, key, value) {
+    if (key in target && !isFunction(target[key])) {
+        target[key] = value;
     }
     else if (isBoolean(value)) {
-        element.toggleAttribute(key, value);
+        target.toggleAttribute(key, value);
     }
     else {
-        element.setAttribute(key, String(value));
+        target.setAttribute(key, String(value));
     }
 }
-function applyClassNames(classList) {
-    return toIterable(classList).flatMap(item => isStringNonEmpty(item) ? item.trim().split(/\s+/).filter(Boolean) : []);
+function applyClassList(target, classList) {
+    if ("classList" in target) {
+        target.classList.add(...toIterable(classList).flatMap(item => isStringNonEmpty(item) ? item.trim().split(/\s+/).filter(Boolean) : []));
+    }
+}
+function applyChildren(target, children) {
+    if (isUndefined(children) || isNull(children)) {
+        return;
+    }
+    const flatChildren = toIterable(children).flat(Infinity);
+    if (!isArrayNonEmpty(flatChildren)) {
+        return;
+    }
+    const fragment = nodeByFragment();
+    flatChildren.forEach(child => {
+        if (isNull(child) || isUndefined(child) || isBoolean(child)) {
+            return;
+        }
+        if (isNode(child)) {
+            fragment.appendChild(child);
+        }
+        else if (isString(child) || isNumber(child)) {
+            fragment.appendChild(nodeByText(child));
+        }
+    });
+    target.appendChild(fragment);
+}
+export function nodeByText(text = "") {
+    return document.createTextNode(String(text));
+}
+export function nodeByFragment(children) {
+    const fragment = document.createDocumentFragment();
+    if (children !== undefined) {
+        applyChildren(fragment, children);
+    }
+    return fragment;
 }
 /**
  * @see elementByElement
  */
 export function elementByTagName(tagName, options = {}, onElement) {
-    return elementByElement(document.createElement(tagName), options, onElement);
+    return elementByElement(document.createElement(tagName, options), options, onElement);
+}
+/**
+ * @see elementByElement
+ */
+export function elementByTagNameNS(namespace, qualifiedName, options = {}, onElement) {
+    return elementByElement(document.createElementNS(namespace in NAMESPACES ? NAMESPACES[namespace] : namespace, qualifiedName, options), options, onElement);
 }
 export function elementByElement(element, options = {}, onElement) {
     if (!isUndefined(options.classList)) {
-        element.classList.add(...applyClassNames(options.classList));
+        applyClassList(element, options.classList);
     }
     applyEachRecord(options.attribute, (name, value) => {
         applyAttribute(element, name, value);
@@ -77,39 +127,32 @@ export function elementByElement(element, options = {}, onElement) {
     applyEachRecord(options.aria, (key, value) => {
         applyAttribute(element, `aria-${key}`, String(value));
     });
-    applyEachRecord(options.dataset, (key, value) => {
-        if (isBoolean(value)) {
-            value ? (element.dataset[key] = "") : delete element.dataset[key];
-        }
-        else {
-            element.dataset[key] = String(value);
-        }
-    });
+    if (element instanceof HTMLElement && "dataset" in element) {
+        applyEachRecord(options.dataset, (key, value) => {
+            if (isBoolean(value)) {
+                value ? (element.dataset[key] = "") : delete element.dataset[key];
+            }
+            else {
+                element.dataset[key] = String(value);
+            }
+        });
+    }
     applyEachRecord(options.event, (event, handler) => {
         if (isFunction(handler)) {
             element.addEventListener(event, handler);
         }
     });
-    if (isStringNonEmpty(options.style)) {
-        element.style.cssText = options.style;
-    }
-    else if (isObjectNonEmpty(options.style)) {
-        Object.assign(element.style, options.style);
+    if ("style" in element) {
+        const htmlElement = element;
+        if (isStringNonEmpty(options.style)) {
+            htmlElement.style.cssText = options.style;
+        }
+        else if (isObjectNonEmpty(options.style)) {
+            Object.assign(htmlElement.style, options.style);
+        }
     }
     if (!isUndefined(options.children)) {
-        const children = toIterable(options.children);
-        if (isArrayNonEmpty(children)) {
-            const fragment = document.createDocumentFragment();
-            children.forEach(child => {
-                if (isString(child)) {
-                    fragment.append(document.createTextNode(child));
-                }
-                else if (isNode(child)) {
-                    fragment.append(child);
-                }
-            });
-            element.appendChild(fragment);
-        }
+        applyChildren(element, options.children);
     }
     if (!isUndefined(onElement)) {
         const result = onElement(element);

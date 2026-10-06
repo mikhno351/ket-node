@@ -142,3 +142,4 @@ vite.config.ts.timestamp-*
 .vite/
 .idea/
 /.npmrc
+/package-lock.json
